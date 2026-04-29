@@ -1,6 +1,9 @@
-﻿using Interview_Test.Models;
+using System.IO;
+using System.Reflection;
+using Interview_Test.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.Extensions.Configuration;
 
 namespace Interview_Test.Infrastructure;
 
@@ -34,7 +37,14 @@ public class InterviewTestDbContextDesignFactory : IDesignTimeDbContextFactory<I
 {
     public InterviewTestDbContext CreateDbContext(string[] args)
     {
-        string connectionString = "<your database connection string>";
+        var configuration = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json", optional: true)
+            .AddJsonFile("../Interview-Test.Api/appsettings.json", optional: true)
+            .Build();
+
+        var connectionString = configuration.GetConnectionString("DefaultConnection");
+
         var optionsBuilder = new DbContextOptionsBuilder<InterviewTestDbContext>()
             .UseSqlServer(connectionString, opts => opts.CommandTimeout(600));
 
