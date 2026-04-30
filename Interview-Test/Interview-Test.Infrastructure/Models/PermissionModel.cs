@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Interview_Test.Models;
@@ -11,6 +11,5 @@ public class PermissionModel
     [Required]
     [Column(TypeName = "text")]
     public string Permission { get; set; }
-    [ForeignKey("RoleId")]
-    public RoleModel Role { get; set; }
+    public ICollection<RolePermissionMappingModel> RolePermissionMappings { get; set; }
 }

@@ -1,5 +1,6 @@
-﻿using Interview_Test.Models;
+using Interview_Test.Models;
 using Interview_Test.Repositories;
+using Interview_Test.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Interview_Test.Controllers;
@@ -8,17 +9,24 @@ namespace Interview_Test.Controllers;
 [Route("api/[controller]")]
 public class UserController : ControllerBase
 {
+    private readonly IUserRepository _userRepository;
+
+    public UserController(IUserRepository userRepository)
+    {
+        _userRepository = userRepository;
+    }
+
     [HttpGet("GetUserById/{id}")]
     public ActionResult GetUserById(string id)
     {
-        //Todo: Implement this method
-        return Ok(Data.Users);
+        var user = _userRepository.GetUserById(id);
+        return Ok(user);
     }
     
     [HttpPost("CreateUser")]
-    public ActionResult GetUserById(UserModel user)
+    public ActionResult CreateUser()
     {
-        //Todo: Implement this method
-        return Ok();
+        int affectedRows = _userRepository.CreateUser();
+        return Ok(new { affectedRows });
     }
 }

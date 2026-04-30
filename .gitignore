@@ -8,6 +8,7 @@ Interview-Test/Interview-Test.Infrastructure/obj/
 .vs/
 **/node_modules/
 .angular/
+**/dist/
 
 **/*.user
 **/*.Development.json

@@ -18,6 +18,7 @@ public class InterviewTestDbContext : DbContext
     public DbSet<RoleModel> RoleTb { get; set; }
     public DbSet<UserRoleMappingModel> UserRoleMappingTb { get; set; }
     public DbSet<PermissionModel> PermissionTb { get; set; }
+    public DbSet<RolePermissionMappingModel> RolePermissionMappingTb { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -28,6 +29,27 @@ public class InterviewTestDbContext : DbContext
                   .WithMany(u => u.UserRoleMappings)
                   .HasForeignKey("UserId")
                   .HasPrincipalKey(u => u.Id)
+                  .OnDelete(DeleteBehavior.Cascade);
+                  
+            entity.HasOne(urm => urm.Role)
+                  .WithMany(r => r.UserRoleMappings)
+                  .HasForeignKey("RoleId")
+                  .HasPrincipalKey(r => r.Id)
+                  .OnDelete(DeleteBehavior.Cascade);
+        });
+        
+        modelBuilder.Entity<RolePermissionMappingModel>(entity =>
+        {
+            entity.HasOne(rpm => rpm.Role)
+                  .WithMany(r => r.RolePermissionMappings)
+                  .HasForeignKey("RoleId")
+                  .HasPrincipalKey(r => r.Id)
+                  .OnDelete(DeleteBehavior.Cascade);
+                  
+            entity.HasOne(rpm => rpm.Permission)
+                  .WithMany(p => p.RolePermissionMappings)
+                  .HasForeignKey("PermissionId")
+                  .HasPrincipalKey(p => p.PermissionId)
                   .OnDelete(DeleteBehavior.Cascade);
         });
     }

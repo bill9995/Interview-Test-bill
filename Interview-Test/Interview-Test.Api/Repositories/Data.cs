@@ -1,4 +1,4 @@
-﻿using Interview_Test.Models;
+using Interview_Test.Models;
 
 namespace Interview_Test.Repositories;
 
@@ -37,19 +37,19 @@ public static class Data
                     {
                         RoleId = 3,
                         RoleName = "document operation",
-                        Permissions = new List<PermissionModel>
+                        RolePermissionMappings = new List<RolePermissionMappingModel>
                         {
                             new()
                             {
-                                Permission = "3-01-printing-label"
+                                Permission = new() { Permission = "3-01-printing-label" }
                             },
                             new()
                             {
-                                Permission = "2-04-packing-report"
+                                Permission = new() { Permission = "2-04-packing-report" }
                             },
                             new()
                             {
-                                Permission = "1-04-picking-report"
+                                Permission = new() { Permission = "1-04-picking-report" }
                             }
                         }
                     }
@@ -87,27 +87,27 @@ public static class Data
                     {
                         RoleId = 1,
                         RoleName = "pick operation",
-                        Permissions = new List<PermissionModel>
+                        RolePermissionMappings = new List<RolePermissionMappingModel>
                         {
                             new()
                             {
-                                Permission = "3-01-printing-label"
+                                Permission = new() { Permission = "3-01-printing-label" }
                             },
                             new()
                             {
-                                Permission = "1-04-picking-report"
+                                Permission = new() { Permission = "1-04-picking-report" }
                             },
                             new()
                             {
-                                Permission = "1-01-picking-info"
+                                Permission = new() { Permission = "1-01-picking-info" }
                             },
                             new()
                             {
-                                Permission = "1-03-picking-confirm"
+                                Permission = new() { Permission = "1-03-picking-confirm" }
                             },
                             new()
                             {
-                                Permission = "1-02-picking-start"
+                                Permission = new() { Permission = "1-02-picking-start" }
                             }
                         }
                     }
@@ -130,31 +130,31 @@ public static class Data
                     {
                         RoleId = 2,
                         RoleName = "pack operation",
-                        Permissions = new List<PermissionModel>
+                        RolePermissionMappings = new List<RolePermissionMappingModel>
                         {
                             new()
                             {
-                                Permission = "2-03-packing-confirm"
+                                Permission = new() { Permission = "2-03-packing-confirm" }
                             },
                             new()
                             {
-                                Permission = "2-04-packing-report"
+                                Permission = new() { Permission = "2-04-packing-report" }
                             },
                             new()
                             {
-                                Permission = "1-04-picking-report"
+                                Permission = new() { Permission = "1-04-picking-report" }
                             },
                             new()
                             {
-                                Permission = "2-02-packing-start"
+                                Permission = new() { Permission = "2-02-packing-start" }
                             },
                             new()
                             {
-                                Permission = "3-01-printing-label"
+                                Permission = new() { Permission = "3-01-printing-label" }
                             },
                             new()
                             {
-                                Permission = "2-01-packing-info"
+                                Permission = new() { Permission = "2-01-packing-info" }
                             }
                         }
                     }
@@ -177,19 +177,19 @@ public static class Data
                     {
                         RoleId = 3,
                         RoleName = "document operation",
-                        Permissions =new List<PermissionModel>
+                        RolePermissionMappings = new List<RolePermissionMappingModel>
                         {
                             new()
                             {
-                                Permission = "3-01-printing-label"
+                                Permission = new() { Permission = "3-01-printing-label" }
                             },
                             new()
                             {
-                                Permission = "2-04-packing-report"
+                                Permission = new() { Permission = "2-04-packing-report" }
                             },
                             new()
                             {
-                                Permission = "1-04-picking-report"
+                                Permission = new() { Permission = "1-04-picking-report" }
                             }
                         }
                     }

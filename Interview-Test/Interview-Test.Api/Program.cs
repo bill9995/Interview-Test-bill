@@ -1,6 +1,9 @@
 using Interview_Test.Infrastructure;
 using Interview_Test.Middlewares;
+using Interview_Test.Repositories;
+using Interview_Test.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,8 +11,39 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddControllers();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.AddSecurityDefinition("ApiKey", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Name = "x-api-key",
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "ApiKApiKeySchemeey"
+    });
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "ApiKey"
+                },
+                Scheme = "ApiKeyScheme",
+                Name = "ApiKey",
+                In = ParameterLocation.Header,
+            },
+            new List<string>()
+        }
+    });
+});
+
 builder.Services.AddMvc(options => options.EnableEndpointRouting = false);
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddTransient<AuthenMiddleware>();
+
 var connection = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<InterviewTestDbContext>(options =>
     {
