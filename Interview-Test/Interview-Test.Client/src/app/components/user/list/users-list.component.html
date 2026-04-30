@@ -1,1 +1,42 @@
-﻿<p>todo</p>
+<div class="container">
+  <h1 style="font-size: 1.5rem; margin-bottom: 1rem;">Users</h1>
+
+  <div style="margin-bottom: 1rem;">
+    <input type="text" [(ngModel)]="globalFilterValue" (input)="filterUsers()"
+      placeholder="Search by id, userId, username, name" style="width: 100%; max-width: 400px; padding: 8px;" />
+  </div>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>UserId</th>
+        <th>Username</th>
+        <th>Name</th>
+        <th>Age</th>
+        <th>#Roles</th>
+        <th>#Permissions</th>
+        <th>Detail</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of filteredUsers">
+        <td>{{ user.userId }}</td>
+        <td>{{ user.username }}</td>
+        <td>{{ user.name }}</td>
+        <td>{{ user.age ? user.age : '-' }}</td>
+        <td>{{ user.rolesCount }}</td>
+        <td>{{ user.permissionsCount }}</td>
+        <td>
+          <a [routerLink]="['/users', user.id]"
+            style="color: purple; text-decoration: underline; cursor: pointer;">View</a>
+        </td>
+      </tr>
+      <tr *ngIf="filteredUsers.length === 0 && !loading">
+        <td colspan="7" style="text-align: center; padding: 1rem; color: #666;">No users found.</td>
+      </tr>
+      <tr *ngIf="loading">
+        <td colspan="7" style="text-align: center; padding: 1rem; color: #666;">Loading users...</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,1 +1,82 @@
-﻿<p>todo</p>
+<div class="container" style="max-width: 900px; padding: 2rem;">
+  <a routerLink="/users" style="color: purple; text-decoration: none; margin-bottom: 1rem; display: inline-block;">
+    &larr; Back to Users
+  </a>
+
+  <h1 style="font-size: 1.8rem; margin-bottom: 1.5rem; font-weight: bold;">User Detail</h1>
+
+  <div *ngIf="loading" style="padding: 2rem; text-align: center; color: #666;">
+    Loading user details...
+  </div>
+
+  <div *ngIf="error" style="padding: 2rem; text-align: center; color: red;">
+    {{ error }}
+  </div>
+
+  <div *ngIf="user && !loading">
+    <!-- User Info Card -->
+    <div
+      style="background-color: #fafafa; border: 1px solid #eaeaea; border-radius: 8px; padding: 1.5rem; margin-bottom: 2rem;">
+      <h2 style="font-size: 1.3rem; margin-top: 0; margin-bottom: 1rem; font-weight: bold;">{{ user.firstName }} {{
+        user.lastName }}</h2>
+
+      <div style="display: flex; flex-wrap: wrap; gap: 2rem; margin-bottom: 1rem;">
+        <div style="flex: 1; min-width: 250px;">
+          <strong>ID:</strong> <span style="word-break: break-all;">{{ user.id }}</span>
+        </div>
+        <div style="flex: 1; min-width: 150px;">
+          <strong>UserId:</strong> {{ user.userId }}
+        </div>
+        <div style="flex: 1; min-width: 150px;">
+          <strong>Username:</strong> {{ user.username }}
+        </div>
+      </div>
+
+      <div>
+        <strong>Age:</strong> {{ user.age ? user.age : 'N/A' }}
+      </div>
+    </div>
+
+    <!-- Roles Section -->
+    <h3 style="font-weight: bold; margin-bottom: 0.75rem;">Roles ({{ user.roles.length }})</h3>
+    <table class="table" style="margin-bottom: 2rem;">
+      <thead>
+        <tr>
+          <th style="width: 50px;">#</th>
+          <th>Role ID</th>
+          <th>Role Name</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let role of user.roles; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ role.roleId }}</td>
+          <td>{{ role.roleName }}</td>
+        </tr>
+        <tr *ngIf="user.roles.length === 0">
+          <td colspan="3" style="text-align: center; padding: 1rem; color: #666;">No roles assigned.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Permissions Section -->
+    <h3 style="font-weight: bold; margin-bottom: 0.75rem;">Permissions ({{ user.permissions.length }})</h3>
+    <table class="table">
+      <thead>
+        <tr>
+          <th style="width: 50px;">#</th>
+          <th>Permission</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let permission of user.permissions; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ permission }}</td>
+        </tr>
+        <tr *ngIf="user.permissions.length === 0">
+          <td colspan="2" style="text-align: center; padding: 1rem; color: #666;">No permissions assigned.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

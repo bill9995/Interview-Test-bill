@@ -11,4 +11,4 @@ Interview-Test/Interview-Test.Infrastructure/obj/
 **/dist/
 
 **/*.user
-**/*.Development.json
+**/*.Development.*

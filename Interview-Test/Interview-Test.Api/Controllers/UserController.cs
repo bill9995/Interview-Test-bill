@@ -16,6 +16,13 @@ public class UserController : ControllerBase
         _userRepository = userRepository;
     }
 
+    [HttpGet("GetUsers")]
+    public ActionResult GetUsers()
+    {
+        var users = _userRepository.GetUsers();
+        return Ok(users);
+    }
+
     [HttpGet("GetUserById/{id}")]
     public ActionResult GetUserById(string id)
     {

@@ -13,41 +13,68 @@ public class UserRepository : IUserRepository
         _context = context;
     }
 
-    public dynamic GetUserById(string id)
+    public IEnumerable<dynamic> GetUsers()
     {
-        var userEntity = _context.UserTb
-            .Where(w => w.UserId == id)
+        var users = _context.UserTb
             .Select(s => new
             {
                 id = s.Id,
                 userId = s.UserId,
                 username = s.Username,
-                firstName = s.UserProfile.FirstName,
-                lastName = s.UserProfile.LastName,
-                age = s.UserProfile.Age,
-                roles = s.UserRoleMappings.Select(s2 => new
+                name = s.UserProfile != null ? s.UserProfile.FirstName + " " + s.UserProfile.LastName : "",
+                age = s.UserProfile != null ? (int?)s.UserProfile.Age : null,
+                rolesCount = s.UserRoleMappings.Count(),
+                rawPermissions = s.UserRoleMappings
+                    .SelectMany(s2 => s2.Role.RolePermissionMappings.Select(p => p.Permission.Permission))
+                    .ToList()
+            })
+            .ToList();
+
+        return users.Select(s => new
+        {
+            s.id,
+            s.userId,
+            s.username,
+            s.name,
+            s.age,
+            s.rolesCount,
+            permissionsCount = s.rawPermissions.Distinct().Count()
+        });
+    }
+
+    public dynamic GetUserById(string id)
+    {
+        var user = _context.UserTb
+            .Where(w => w.Id.ToString() == id)
+            .Select(s => new
+            {
+                s.Id,
+                s.UserId,
+                s.Username,
+                s.UserProfile.FirstName,
+                s.UserProfile.LastName,
+                s.UserProfile.Age,
+                Roles = s.UserRoleMappings.Select(s2 => new
                 {
                     roleId = s2.Role.RoleId,
                     roleName = s2.Role.RoleName
                 }).OrderBy(o => o.roleId).ToList(),
-                rawPermissions = s.UserRoleMappings
+                Permissions = s.UserRoleMappings
                     .SelectMany(s2 => s2.Role.RolePermissionMappings.Select(s => s.Permission.Permission))
                     .ToList()
             })
             .FirstOrDefault();
-
-        if (userEntity == null) return null;
-
+        if (user == null) return null;
         return new 
         {
-            userEntity.id,
-            userEntity.userId,
-            userEntity.username,
-            userEntity.firstName,
-            userEntity.lastName,
-            userEntity.age,
-            userEntity.roles,
-            permissions = userEntity.rawPermissions.Distinct().OrderBy(o => o).ToList()
+            user.Id,
+            user.UserId,
+            user.Username,
+            user.FirstName,
+            user.LastName,
+            user.Age,
+            user.Roles,
+            Permissions = user.Permissions.Distinct().OrderBy(o => o).ToList()
         };
     }
 
